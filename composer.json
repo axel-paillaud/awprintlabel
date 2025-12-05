@@ -1,6 +1,6 @@
 {
-  "name": "axelweb/awmodulebase",
-  "description": "PrestaShop module base template for development",
+  "name": "axelweb/awprintlabel",
+  "description": "PrestaShop print label module",
   "type": "prestashop-module",
   "license": "AFL-3.0",
   "authors": [
@@ -11,7 +11,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Axelweb\\AwModuleBase\\": "src/"
+      "Axelweb\\AwPrintLabel\\": "src/"
     }
   },
   "require": {

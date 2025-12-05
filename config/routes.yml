@@ -1,8 +1,8 @@
-awmodulebase_form_configuration:
-  path: /awmodulebase/configuration
+awprintlabel_form_configuration:
+  path: /awprintlabel/configuration
   methods: [GET, POST]
   defaults:
-    _controller: 'Axelweb\AwModuleBase\Controller\AdminConfigurationController::index'
+    _controller: 'Axelweb\AwPrintLabel\Controller\AdminConfigurationController::index'
     # Needed to work with tab system
-    _legacy_controller: AdminAwModuleBase
-    _legacy_link: AdminAwModuleBase
+    _legacy_controller: AdminAwPrintLabel
+    _legacy_link: AdminAwPrintLabel

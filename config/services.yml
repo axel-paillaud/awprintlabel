@@ -3,27 +3,27 @@ services:
     public: true
 
   # General form type
-  axelweb.awmodulebase.form.type.general:
-    class: 'Axelweb\AwModuleBase\Form\GeneralFormType'
+  axelweb.awprintlabel.form.type.general:
+    class: 'Axelweb\AwPrintLabel\Form\GeneralFormType'
     parent: 'form.type.translatable.aware'
     public: true
     tags:
       - { name: form.type }
 
-  axelweb.awmodulebase.form.general_data_configuration:
-    class: 'Axelweb\AwModuleBase\Form\GeneralDataConfiguration'
+  axelweb.awprintlabel.form.general_data_configuration:
+    class: 'Axelweb\AwPrintLabel\Form\GeneralDataConfiguration'
     arguments: ['@prestashop.adapter.legacy.configuration']
 
-  axelweb.awmodulebase.form.general_form_data_provider:
-    class: 'Axelweb\AwModuleBase\Form\GeneralFormDataProvider'
+  axelweb.awprintlabel.form.general_form_data_provider:
+    class: 'Axelweb\AwPrintLabel\Form\GeneralFormDataProvider'
     arguments:
-      - '@axelweb.awmodulebase.form.general_data_configuration'
+      - '@axelweb.awprintlabel.form.general_data_configuration'
 
-  axelweb.awmodulebase.form.general_form_data_handler:
+  axelweb.awprintlabel.form.general_form_data_handler:
     class: 'PrestaShop\PrestaShop\Core\Form\Handler'
     arguments:
       - '@form.factory'
       - '@prestashop.core.hook.dispatcher'
-      - '@axelweb.awmodulebase.form.general_form_data_provider'
-      - 'Axelweb\AwModuleBase\Form\GeneralFormType'
-      - 'AwModuleBase'
+      - '@axelweb.awprintlabel.form.general_form_data_provider'
+      - 'Axelweb\AwPrintLabel\Form\GeneralFormType'
+      - 'AwPrintLabel'

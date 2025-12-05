@@ -17,6 +17,8 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-/* AwModuleBase - Front Office Styles */
+// AwPrintLabel - Front Office Scripts
 
-/* Add your custom styles here */
+document.addEventListener('DOMContentLoaded', function() {
+    // Add your custom JavaScript here
+});
