@@ -43,6 +43,9 @@ class GeneralFormType extends TranslatorAwareType
                     new Assert\NotBlank(),
                     new Assert\Type(['type' => 'numeric']),
                 ],
+                'attr' => [
+                    'class' => 'fixed-width-xl',
+                ],
             ])
             ->add('state_to_check', ChoiceType::class, [
                 'label' => $this->trans('Order status to check before printing label', 'Modules.Awprintlabel.Admin'),
@@ -52,6 +55,9 @@ class GeneralFormType extends TranslatorAwareType
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Type(['type' => 'numeric']),
+                ],
+                'attr' => [
+                    'class' => 'fixed-width-xl',
                 ],
             ]);
     }

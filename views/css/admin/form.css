@@ -1,0 +1,4 @@
+/* Force fixed-width-xl to work with Symfony forms */
+select.fixed-width-xl.form-control {
+    max-width: 300px;
+}
