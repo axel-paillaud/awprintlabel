@@ -3,6 +3,7 @@
   "description": "PrestaShop print label module",
   "type": "prestashop-module",
   "license": "AFL-3.0",
+  "version": "1.0.0",
   "authors": [
     {
       "name": "Axelweb",

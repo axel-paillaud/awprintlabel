@@ -54,6 +54,16 @@ class AwPrintLabel extends Module
         ];
     }
 
+    public $tabs = [
+        [
+            'name' => 'Print Label',
+            'class_name' => 'PrintLabel',
+            'parent_class_name' => 'AdminParentOrders',
+            'wording' => 'Print Label',
+            'wording_domain' => 'Modules.Awprintlabel.Admin',
+        ],
+    ];
+
     public function isUsingNewTranslationSystem()
     {
         return true;

@@ -3,6 +3,11 @@ awprintlabel_form_configuration:
   methods: [GET, POST]
   defaults:
     _controller: 'Axelweb\AwPrintLabel\Controller\AdminConfigurationController::index'
-    # Needed to work with tab system
-    _legacy_controller: AdminAwPrintLabel
-    _legacy_link: AdminAwPrintLabel
+
+awprintlabel_print_label:
+    path: /awprintlabel/print-label
+    methods: [GET]
+    defaults:
+      _controller: 'Axelweb\AwPrintLabel\Controller\PrintLabelController::index'
+      _legacy_controller: PrintLabel
+      _legacy_link: PrintLabel
