@@ -30,7 +30,8 @@ use PrestaShop\PrestaShop\Core\ConfigurationInterface;
  */
 final class GeneralDataConfiguration implements DataConfigurationInterface
 {
-    public const AWPRINTLABEL_SAMPLE_CONFIG = 'AWPRINTLABEL_SAMPLE_CONFIG';
+    public const AWPRINTLABEL_STATE_TO_UPDATE = 'AWPRINTLABEL_STATE_TO_UPDATE';
+    public const AWPRINTLABEL_STATE_TO_CHECK = 'AWPRINTLABEL_STATE_TO_CHECK';
 
     /**
      * @var ConfigurationInterface
@@ -45,7 +46,8 @@ final class GeneralDataConfiguration implements DataConfigurationInterface
     public function getConfiguration(): array
     {
         return [
-            'sample_config' => (string) $this->configuration->get(static::AWPRINTLABEL_SAMPLE_CONFIG),
+            'state_to_update' => (int) $this->configuration->get(static::AWPRINTLABEL_STATE_TO_UPDATE),
+            'state_to_check' => (int) $this->configuration->get(static::AWPRINTLABEL_STATE_TO_CHECK),
         ];
     }
 
@@ -53,18 +55,29 @@ final class GeneralDataConfiguration implements DataConfigurationInterface
     {
         $errors = [];
 
-        // Quick normalisation
-        $sampleConfig = isset($configuration['sample_config']) ? trim((string) $configuration['sample_config']) : '';
+        // Normalize values
+        $stateToUpdate = isset($configuration['state_to_update']) ? (int) $configuration['state_to_update'] : 0;
+        $stateToCheck = isset($configuration['state_to_check']) ? (int) $configuration['state_to_check'] : 0;
 
-        if (!$this->validateConfiguration(['sample_config' => $sampleConfig])) {
+        if (!$this->validateConfiguration(['state_to_update' => $stateToUpdate, 'state_to_check' => $stateToCheck])) {
             $errors[] = 'Invalid configuration payload.';
 
             return $errors;
         }
 
-        // Validation (exemple)
-        if ($sampleConfig !== '' && \strlen($sampleConfig) > 255) {
-            $errors[] = 'Sample configuration is too long.';
+        // Validate order states exist
+        if ($stateToUpdate > 0) {
+            $orderStateUpdate = new \OrderState($stateToUpdate);
+            if (!\Validate::isLoadedObject($orderStateUpdate)) {
+                $errors[] = 'Invalid order state to update.';
+            }
+        }
+
+        if ($stateToCheck > 0) {
+            $orderStateCheck = new \OrderState($stateToCheck);
+            if (!\Validate::isLoadedObject($orderStateCheck)) {
+                $errors[] = 'Invalid order state to check.';
+            }
         }
 
         if (!empty($errors)) {
@@ -72,9 +85,9 @@ final class GeneralDataConfiguration implements DataConfigurationInterface
         }
 
         // Persist
-        $this->configuration->set(static::AWPRINTLABEL_SAMPLE_CONFIG, $sampleConfig);
+        $this->configuration->set(static::AWPRINTLABEL_STATE_TO_UPDATE, $stateToUpdate);
+        $this->configuration->set(static::AWPRINTLABEL_STATE_TO_CHECK, $stateToCheck);
 
-        // empty = ok
         return $errors;
     }
 
@@ -85,6 +98,6 @@ final class GeneralDataConfiguration implements DataConfigurationInterface
      */
     public function validateConfiguration(array $configuration): bool
     {
-        return isset($configuration['sample_config']);
+        return isset($configuration['state_to_update']) && isset($configuration['state_to_check']);
     }
 }

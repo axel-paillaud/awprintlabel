@@ -78,7 +78,8 @@ class AwPrintLabel extends Module
         $installed = parent::install()
             && $this->installDb()
             && $this->registerHook('actionFrontControllerSetMedia')
-            && Configuration::updateValue('AWPRINTLABEL_SAMPLE_CONFIG', '');
+            && Configuration::updateValue('AWPRINTLABEL_STATE_TO_UPDATE', _PS_OS_PREPARATION_)
+            && Configuration::updateValue('AWPRINTLABEL_STATE_TO_CHECK', _PS_OS_PREPARATION_);
 
         // Prevent 'Unable to generate a URL for the named route [...]' error,
         // clear Symfony cache
@@ -92,7 +93,8 @@ class AwPrintLabel extends Module
     public function uninstall(): bool
     {
         return parent::uninstall()
-            && Configuration::deleteByName('AWPRINTLABEL_SAMPLE_CONFIG')
+            && Configuration::deleteByName('AWPRINTLABEL_STATE_TO_UPDATE')
+            && Configuration::deleteByName('AWPRINTLABEL_STATE_TO_CHECK')
             && $this->uninstallDb();
     }
 

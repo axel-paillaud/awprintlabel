@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace Axelweb\AwPrintLabel\Form;
 
 use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -31,18 +31,45 @@ class GeneralFormType extends TranslatorAwareType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $orderStates = $this->getOrderStates();
+
         $builder
-            ->add('sample_config', TextType::class, [
-                'label' => $this->trans('Sample configuration', 'Modules.Awprintlabel.Admin'),
-                'help' => $this->trans('Example configuration field', 'Modules.Awprintlabel.Admin'),
-                'required' => false,
+            ->add('state_to_update', ChoiceType::class, [
+                'label' => $this->trans('Order status to update after printing label', 'Modules.Awprintlabel.Admin'),
+                'help' => $this->trans('Select the order status that will be applied after a label is successfully printed', 'Modules.Awprintlabel.Admin'),
+                'choices' => $orderStates,
+                'required' => true,
                 'constraints' => [
-                    new Assert\Length(['max' => 255]),
+                    new Assert\NotBlank(),
+                    new Assert\Type(['type' => 'numeric']),
                 ],
-                'attr' => [
-                    'placeholder' => 'Example value',
-                    'autocomplete' => 'off',
+            ])
+            ->add('state_to_check', ChoiceType::class, [
+                'label' => $this->trans('Order status to check before printing label', 'Modules.Awprintlabel.Admin'),
+                'help' => $this->trans('The first order status will always be "payment accepted". You can choose the second one here.', 'Modules.Awprintlabel.Admin'),
+                'choices' => $orderStates,
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\Type(['type' => 'numeric']),
                 ],
             ]);
+    }
+
+    /**
+     * Get order states for dropdown
+     *
+     * @return array
+     */
+    private function getOrderStates(): array
+    {
+        $states = \OrderState::getOrderStates((int) \Context::getContext()->language->id);
+        $choices = [];
+
+        foreach ($states as $state) {
+            $choices[$state['name']] = (int) $state['id_order_state'];
+        }
+
+        return $choices;
     }
 }
